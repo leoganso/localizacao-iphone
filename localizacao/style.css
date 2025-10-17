@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+}
+
+header nav {
+    padding: .7rem;
+}
+
+.icloud-logo {
+    font-size: 1.3rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+}
+
+.center-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading h1 {
+    font-size: 8.5vw;
+}
+
+#sign-in-btn {
+    padding: .5rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    background-color: black;
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 30px 0;
+    cursor: pointer;
+    transition: .1s ease;
+}
+
+#sign-in-btn:hover {
+    background-color: gray;
+}
+
+#intro-text {
+    font-size: 2.5vw;
+    width: 30%;
+    text-align: center;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 4rem auto;
+    gap: 60px;
+}
+
+.box-2-img {
+    width: 220px;
+    margin: 0 auto;
+}
+
+.box-1,
+.box-2 {
+    border: none;
+    border-radius: 5%;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    display: flex;
+    height: 600px;
+    width: 500px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    padding: 2rem;
+}
+
+#box-1-heading {
+    margin: auto;
+    font-size: 2vw;
+}
+
+.box-1-txt {
+    font-size: 1.2vw;
+    text-align: justify;
+    margin: auto;
+}
+
+#box-2-heading {
+    font-size: 2vw;
+}
+
+.box-2-txt {
+    font-size: 1.2vw;
+    text-align: justify;
+}
+
+footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(225, 222, 222, 0.304);
+    padding: 2rem;
+}
+
+.footer-div {
+    display: flex;
+    font-size: .7rem;
+    color: gray;
+    align-items: center;
+}
+
+.sep {
+    background-color: gray;
+    height: 10px;
+    width: 1px;
+    margin: 0 10px;
+}
+
+
+/*---------------------------sign-in page------------------------------*/
+
+#main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sign-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 2px; 
+    border-radius: 5%;
+    border: none;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    width: 600px;
+    height: 600px;
+}
+
+#apple-color-logo {
+    width: 180px;
+}
+
+#sign-in p {
+    font-size: 2vw;
+    font-weight: 500;
+}
+
+.input-container {
+    position: relative;
+    margin: 0; 
+}
+
+/* NOVO CONTÊINER DE INPUTS: RECEBE A BORDA COMPLETA E O ARREDONDAMENTO */
+#form-inputs-container {
+    width: 450px; 
+    /* BORDA AZUL */
+    border: 1px solid #0071e3; 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+.bx-right-arrow-circle {
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%);
+    right: 10px; 
+    font-size: 1.5rem;
+    color: #0071e3;
+}
+
+/* REGRAS DE INPUT: Ocupam 100% do novo contêiner e não têm bordas */
+#sign-in #email-phone, #sign-in #password { 
+    padding: 1rem .9rem;
+    font-size: 1rem;
+    width: 100%; 
+    border: none; 
+    border-radius: 0; 
+    padding-right: 40px; 
+}
+
+/* LINHA DE SEPARAÇÃO: Aplicada apenas na parte inferior do e-mail */
+#sign-in #email-phone {
+    /* LINHA DE SEPARAÇÃO AZUL */
+    border-bottom: 1px solid #0071e3; 
+}
+
+/* EFEITO DE FOCO (Sem borda externa extra, a borda do contêiner já é azul) */
+
+/* Remove o outline padrão */
+#email-phone:focus, #password:focus {
+    outline: 0;
+}
+
+/* Garante que a linha de separação fique azul no foco */
+#email-phone:focus {
+    /* Mantém a linha de separação na cor azul (pode ser a mesma ou um tom mais claro se quiser) */
+    border-bottom: 1px solid #0071e3; 
+}
+
+/* Opcional: Para simular um "brilho" da borda no foco, use a sombra interna */
+#form-inputs-container:focus-within {
+    /* Mantém a borda da mesma cor */
+    border: 1px solid #0071e3;
+    /* Adiciona um leve brilho/sombra de foco para destacar */
+    box-shadow: 0 0 0 1px #0071e3; 
+}
+
+
+label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#check {
+    height: 16px;
+    width: 16px;
+    margin-right: 10px;
+    background-color: rgb(0, 191, 255);
+}
+
+#sign-in #email-phone::placeholder,
+#sign-in #password::placeholder {
+    font-size: 1rem;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.links a {
+    color: #0071e3;
+}

