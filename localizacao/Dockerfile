@@ -2,14 +2,17 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copiar arquivos do projeto
-COPY . .
+# Copiar arquivos de dependências primeiro
+COPY package*.json ./
 
 # Instalar dependências
 RUN npm install
 
-# Expor porta
-EXPOSE 10000
+# Copiar todo o código da aplicação
+COPY . .
 
-# Comando para iniciar
-CMD ["npx", "serve", "-s", ".", "-l", "10000"]
+# Expor a porta
+EXPOSE 3000
+
+# Comando para iniciar a aplicação
+CMD ["npm", "start"]
