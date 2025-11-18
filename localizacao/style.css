@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -13,6 +14,9 @@ a {
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header nav {
@@ -34,6 +38,7 @@ header nav {
 
 .heading h1 {
     font-size: 8.5vw;
+    text-align: center;
 }
 
 #sign-in-btn {
@@ -72,6 +77,8 @@ header nav {
 .box-2-img {
     width: 220px;
     margin: 0 auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .box-1,
@@ -114,6 +121,8 @@ footer {
     align-items: center;
     background-color: rgba(225, 222, 222, 0.304);
     padding: 2rem;
+    margin-top: auto;
+    flex-wrap: wrap;
 }
 
 .footer-div {
@@ -121,6 +130,8 @@ footer {
     font-size: .7rem;
     color: gray;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .sep {
@@ -130,7 +141,6 @@ footer {
     margin: 0 10px;
 }
 
-
 /*---------------------------sign-in page------------------------------*/
 
 #main {
@@ -139,6 +149,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
 }
 
 #sign-in {
@@ -152,15 +163,21 @@ footer {
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     width: 600px;
     height: 600px;
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
 #apple-color-logo {
     width: 180px;
+    max-width: 30vw;
+    height: auto;
 }
 
 #sign-in p {
     font-size: 2vw;
     font-weight: 500;
+    text-align: center;
+    padding: 0 1rem;
 }
 
 .input-container {
@@ -171,6 +188,7 @@ footer {
 /* NOVO CONTÊINER DE INPUTS: RECEBE A BORDA COMPLETA E O ARREDONDAMENTO */
 #form-inputs-container {
     width: 450px; 
+    max-width: 90%;
     /* BORDA AZUL */
     border: 1px solid #0071e3; 
     border-radius: 10px; 
@@ -223,11 +241,12 @@ footer {
     box-shadow: 0 0 0 1px #0071e3; 
 }
 
-
 label {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 #check {
@@ -251,4 +270,190 @@ label {
 
 .links a {
     color: #0071e3;
+    text-align: center;
+}
+
+/* ===== MEDIA QUERIES PARA RESPONSIVIDADE ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .box {
+        width: 90%;
+        gap: 40px;
+    }
+    
+    .box-1,
+    .box-2 {
+        height: 550px;
+        width: 450px;
+    }
+    
+    #intro-text {
+        width: 50%;
+    }
+}
+
+/* Tablets Pequenos e Mobile Grande */
+@media (max-width: 768px) {
+    .box {
+        flex-direction: column;
+        width: 95%;
+        gap: 30px;
+    }
+    
+    .box-1,
+    .box-2 {
+        height: auto;
+        width: 100%;
+        max-width: 500px;
+        min-height: 500px;
+    }
+    
+    #intro-text {
+        width: 70%;
+        font-size: 3vw;
+    }
+    
+    #box-1-heading,
+    #box-2-heading {
+        font-size: 3vw;
+    }
+    
+    .box-1-txt,
+    .box-2-txt {
+        font-size: 2vw;
+    }
+    
+    footer {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    #sign-in p {
+        font-size: 3vw;
+    }
+    
+    #sign-in {
+        height: 550px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .heading h1 {
+        font-size: 12vw;
+    }
+    
+    #intro-text {
+        width: 85%;
+        font-size: 4vw;
+    }
+    
+    .box {
+        width: 95%;
+        margin: 2rem auto;
+        gap: 20px;
+    }
+    
+    .box-1,
+    .box-2 {
+        padding: 1.5rem;
+        min-height: 450px;
+        gap: 25px;
+    }
+    
+    #box-1-heading,
+    #box-2-heading {
+        font-size: 5vw;
+    }
+    
+    .box-1-txt,
+    .box-2-txt {
+        font-size: 3.5vw;
+    }
+    
+    .box-2-img {
+        width: 180px;
+    }
+    
+    #sign-in-btn {
+        font-size: 1.1rem;
+        padding: .4rem 2rem;
+    }
+    
+    #sign-in {
+        height: 500px;
+        border-radius: 3%;
+    }
+    
+    #sign-in p {
+        font-size: 5vw;
+    }
+    
+    #form-inputs-container {
+        width: 350px;
+        max-width: 95%;
+    }
+    
+    #sign-in #email-phone, 
+    #sign-in #password {
+        padding: 0.8rem .7rem;
+        font-size: 0.9rem;
+    }
+    
+    .footer-div {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .sep {
+        display: none;
+    }
+}
+
+/* Mobile Pequeno */
+@media (max-width: 320px) {
+    #sign-in {
+        height: 450px;
+    }
+    
+    #form-inputs-container {
+        width: 280px;
+    }
+    
+    #sign-in #email-phone, 
+    #sign-in #password {
+        padding: 0.7rem .6rem;
+        font-size: 0.8rem;
+    }
+    
+    .box-1,
+    .box-2 {
+        padding: 1rem;
+        min-height: 400px;
+    }
+    
+    #apple-color-logo {
+        width: 120px;
+    }
+}
+
+/* Orientação Landscape em Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    #main {
+        height: auto;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+    }
+    
+    #sign-in {
+        height: auto;
+        min-height: 400px;
+        padding: 1rem 0;
+    }
+    
+    .box {
+        margin: 2rem auto;
+    }
 }
